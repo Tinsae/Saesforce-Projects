@@ -1,0 +1,51 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name="boat" type="Boat__c" access="global" />
+    <!-- used for targetRecord , old way -->
+    <aura:attribute name="newBoatReview" type="BoatReview__c" />
+    <!-- used for targetFields , new way -->
+    <aura:attribute name="boatReview" type="BoatReview__c" />
+    <aura:attribute name="recordError" type="String" access="private"/>
+    <aura:registerEvent name="BoatReviewAdded" type="c:BoatReviewAdded" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <force:recordData aura:id="service" fields="Id, Name, Comment__c, Boat__c, Rating__c"
+        targetRecord="{!v.newBoatReview}" targetFields="{!v.boatReview}" targetError="{!v.recordError}"
+        recordUpdated="{!c.onRecordUpdated}" />
+
+    <!-- One layout item for each field -->
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12"
+            padding="slds-p-around_xx-small">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <lightning:input name="title" label="Title" value="{!v.boatReview.Name}" />
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12"
+            padding="slds-p-around_xx-small">
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">Description</label>
+                <div class="slds-form-element__control">
+                    <lightning:inputRichText aura:id="description" title="description" disabledCategories="FORMAT_FONT"
+                        value="{!v.boatReview.Comment__c}" label="Description" />
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12"
+            padding="slds-p-around_xx-small">
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">Rating</label>
+                <div class="slds-form-element__control">
+                    <c:FiveStarRating value="{!v.boatReview.Rating__c}" readonly="false" />
+                </div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12"
+            padding="around-small">
+            <lightning:button label="Submit" title="Review Submit" onclick="{! c.onSave }" iconName="utility:save"
+                iconPosition="left" class="slds-align_absolute-center" />
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>
