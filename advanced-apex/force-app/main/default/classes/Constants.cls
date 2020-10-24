@@ -5,7 +5,7 @@ public with sharing class Constants {
     public static final List<Schema.PicklistEntry> PRODUCT_FAMILY =  Product2.Family.getDescribe().getPicklistValues();
     public static final String DRAFT_ORDER_STATUS = 'draft';
     public static final String ACTIVATED_ORDER_STATUS = 'Activated';
-    public static final String INVENTORY_ANNOUNCEMENTS = 'Inventory Announcement';
+    public static final String INVENTORY_ANNOUNCEMENTS = 'Inventory Announcements';
     public static final String ERROR_MESSAGE = 'An error has occurred, please take a screenshot with the URL and send it to IT.';
     public static final Id STANDARD_PRICEBOOK_ID = '01s3g000000mSH3AAM';			
 }
