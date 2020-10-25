@@ -5,7 +5,7 @@ private class Product2Tests {
      * @name product2Extension_UnitTest
      * @description UnitTest for product2Extension
     **/
-    static TestMethod void Product2Extension_UnitTest(){
+    private static TestMethod void Product2Extension_UnitTest(){
         Test.startTest();
             ApexPages.StandardController controller = new  ApexPages.StandardController(new Product2());
             Product2Extension ext = new Product2Extension(controller);
@@ -21,7 +21,7 @@ private class Product2Tests {
         System.assertEquals(ext.productsToInsert.size(), Constants.DEFAULT_ROWS * 2);
     }
 
-    static TestMethod void Product2Extension_UnitTestSave(){
+    private static TestMethod void Product2Extension_UnitTestSave(){
         Test.startTest();
             ApexPages.StandardController controller = new  ApexPages.StandardController(new Product2());
             Product2Extension ext = new Product2Extension(controller);
@@ -40,4 +40,25 @@ private class Product2Tests {
         List<Product2> prods = [SELECT Id FROM Product2 WHERE Name LIKE 'testProd%' AND isActive=true AND Initial_Inventory__c=12];
         System.assertEquals(prods.size(), Constants.DEFAULT_ROWS);
     }
+
+     private static TestMethod void Product2Trigger_UnitTest(){
+        
+        Test.startTest();
+        CollaborationGroup c = TestDataFactory.ConstructCollaborationGroup();
+        insert c;
+
+        Product2 newProduct = TestDataFactory.ConstructProducts(1)[0];
+        newProduct.Quantity_Ordered__c = 5;
+        insert newProduct;
+        
+        
+        newProduct.Quantity_Ordered__c=96;
+        update newProduct;
+
+        delete newProduct;
+        ChartHelper.GetInventory();
+        Test.stopTest();
+        
+    }
+
 }
